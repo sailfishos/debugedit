@@ -1,0 +1,119 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matti Viljanen <matti.viljanen@jolla.com>
+Date: Wed, 18 Sep 2024 11:11:15 +0300
+Subject: [PATCH] Remove dwz support
+
+---
+ scripts/find-debuginfo.in | 71 ---------------------------------------
+ 1 file changed, 71 deletions(-)
+
+diff --git a/scripts/find-debuginfo.in b/scripts/find-debuginfo.in
+index fb3af95..456827e 100644
+--- a/scripts/find-debuginfo.in
++++ b/scripts/find-debuginfo.in
+@@ -32,9 +32,6 @@ Options:
+ [-j N] [--jobs N]
+ [-o debugfiles.list]
+ [-S debugsourcefiles.list]
+-[--run-dwz] [--dwz-low-mem-die-limit N]
+-[--dwz-max-die-limit N]
+-[--dwz-single-file-mode]
+ [--build-id-seed SEED]
+ [--unique-debug-suffix SUFFIX]
+ [--unique-debug-src-base BASE]
+@@ -72,12 +69,6 @@ the -l filelist file, or whose names match the -p pattern.
+ The -p argument is an grep -E -style regexp matching the a file name,
+ and must not use anchors (^ or $).
+ 
+-The --run-dwz flag instructs find-debuginfo to run the dwz utility
+-if available, and --dwz-low-mem-die-limit and --dwz-max-die-limit
+-provide detailed limits.  See dwz(1) -l and -L option for details.
+-Use --dwz-single-file-mode to disable multi-file mode, see dwz(1) -m
+-for more details.
+-
+ If --build-id-seed SEED is given then debugedit is called to
+ update the build-ids it finds adding the SEED as seed to recalculate
+ the build-id hash.  This makes sure the build-ids in the ELF files
+@@ -131,12 +122,6 @@ strict=false
+ # Do not recompute build IDs.
+ no_recompute_build_id=false
+ 
+-# DWZ parameters.
+-run_dwz=false
+-dwz_low_mem_die_limit=
+-dwz_max_die_limit=
+-dwz_single_file_mode=false
+-
+ # build id seed given by the --build-id-seed option
+ build_id_seed=
+ 
+@@ -167,21 +152,6 @@ while [ $# -gt 0 ]; do
+   --strict-build-id)
+     strict=true
+     ;;
+-  --run-dwz)
+-    run_dwz=true
+-    ;;
+-  --dwz-low-mem-die-limit)
+-    dwz_low_mem_die_limit=$2
+-    shift
+-    ;;
+-  --dwz-max-die-limit)
+-    dwz_max_die_limit=$2
+-    shift
+-    ;;
+-  --dwz-single-file-mode)
+-    dwz_single_file_mode=true
+-    shift
+-    ;;
+   --build-id-seed)
+     build_id_seed=$2
+     shift
+@@ -626,47 +596,6 @@ else
+   cat "$temp"/elfbins.* >"$ELFBINSFILE"
+ fi
+ 
+-# Invoke the DWARF Compressor utility.
+-if $run_dwz \
+-   && [ -d "${RPM_BUILD_ROOT}/usr/lib/debug" ]; then
+-  readarray dwz_files < <(cd "${RPM_BUILD_ROOT}/usr/lib/debug"; find -type f -name \*.debug | LC_ALL=C sort)
+-  if [ ${#dwz_files[@]} -gt 0 ]; then
+-    $quiet || echo "DWARF-compressing ${#dwz_files[@]} files" 2>&1
+-    $verbose && size_before=$(du -sk ${RPM_BUILD_ROOT}/usr/lib/debug | cut -f1)
+-    dwz_multifile_name="${RPM_PACKAGE_NAME}-${RPM_PACKAGE_VERSION}-${RPM_PACKAGE_RELEASE}.${RPM_ARCH}"
+-    dwz_multifile_suffix=
+-    dwz_multifile_idx=0
+-    while [ -f "${RPM_BUILD_ROOT}/usr/lib/debug/.dwz/${dwz_multifile_name}${dwz_multifile_suffix}" ]; do
+-      let ++dwz_multifile_idx
+-      dwz_multifile_suffix=".${dwz_multifile_idx}"
+-    done
+-    dwz_multifile_name="${dwz_multifile_name}${dwz_multifile_suffix}"
+-    dwz_opts="-h -q -r"
+-    [ ${#dwz_files[@]} -gt 1 ] && [ "$dwz_single_file_mode" = "false" ] \
+-      && dwz_opts="${dwz_opts} -m .dwz/${dwz_multifile_name}"
+-    mkdir -p "${RPM_BUILD_ROOT}/usr/lib/debug/.dwz"
+-    [ -n "${dwz_low_mem_die_limit}" ] \
+-      && dwz_opts="${dwz_opts} -l ${dwz_low_mem_die_limit}"
+-    [ -n "${dwz_max_die_limit}" ] \
+-      && dwz_opts="${dwz_opts} -L ${dwz_max_die_limit}"
+-    if type dwz >/dev/null 2>&1; then
+-      ( cd "${RPM_BUILD_ROOT}/usr/lib/debug" && dwz $dwz_opts ${dwz_files[@]} )
+-    else
+-      echo >&2 "*** ERROR: DWARF compression requested, but no dwz installed"
+-      exit 2
+-    fi
+-    $verbose && size_after=$(du -sk ${RPM_BUILD_ROOT}/usr/lib/debug | cut -f1)
+-    $verbose && echo "original debug info size: ${size_before}kB, size after compression: ${size_after}kB"
+-    # Remove .dwz directory if empty
+-    rmdir "${RPM_BUILD_ROOT}/usr/lib/debug/.dwz" 2>/dev/null
+-
+-    # dwz invalidates .gnu_debuglink CRC32 in the main files.
+-    cat "$ELFBINSFILE" |
+-    (cd "$RPM_BUILD_ROOT"; \
+-     tr '\n' '\0' | xargs -0 sepdebugcrcfix usr/lib/debug)
+-  fi
+-fi
+-
+ # We used to make a .debug symlink for each symlink whose target
+ # has a .debug file to that file.  This is not necessary because
+ # the debuglink section contains only the destination of those links.
