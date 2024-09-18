@@ -44,6 +44,7 @@ Patch10: 0001-openSUSE-finddebuginfo-patch.patch
 Patch11: 0002-OpenSUSE-finddebuginfo-absolute-links.patch
 Patch12: 0003-OpenSUSE-debugsubpkg.patch
 Patch13: 0009-Compatibility-with-older-dd.patch
+Patch14: 0014-Don-t-build-manpages.patch
 
 %description
 The debugedit project provides programs and scripts for creating
@@ -68,6 +69,8 @@ autoreconf -f -v -i
 cd %{buildroot}%{_bindir}
 ln -s find-debuginfo find-debuginfo.sh
 
+rm ${_bindir}/documentation.list
+
 %files
 %license COPYING COPYING3 COPYING.LIB
 %doc README
@@ -75,6 +78,3 @@ ln -s find-debuginfo find-debuginfo.sh
 %{_bindir}/sepdebugcrcfix
 %{_bindir}/find-debuginfo
 %{_bindir}/find-debuginfo.sh
-%{_mandir}/man1/debugedit.1*
-%{_mandir}/man1/sepdebugcrcfix.1*
-%{_mandir}/man1/find-debuginfo.1*
