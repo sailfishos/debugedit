@@ -1,0 +1,32 @@
+From c206186e015aca89af2bb058f37e9db81160965e Mon Sep 17 00:00:00 2001
+From: Mark Wielaard <mark@klomp.org>
+Date: Fri, 27 Jan 2023 17:03:33 +0100
+Subject: [PATCH 3/4] configure.ac: Use AC_LANG_PROGRAM for AC_LINK_IFELSE
+ -gz=none check
+
+We do need a real AC_LANG_PROGRAM instead of just AC_LANG_SOURCE since
+commit 73652f configure.ac: Use AC_LINK_IFELSE for -gz=none check
+
+Otherwise the check always fails because it will not have a main ().
+
+Signed-off-by: Mark Wielaard <mark@klomp.org>
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 1d77e99..6704dc0 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -125,7 +125,7 @@ AC_SUBST([DWARF_5_DEBUGLINE])
+ AC_CACHE_CHECK([whether gcc supports -gz=none], ac_cv_gz_none, [dnl
+ save_CFLAGS="$CFLAGS"
+ CFLAGS="-gz=none"
+-AC_LINK_IFELSE([AC_LANG_SOURCE()], ac_cv_gz_none=yes, ac_cv_gz_none=no)
++AC_LINK_IFELSE([AC_LANG_PROGRAM()], ac_cv_gz_none=yes, ac_cv_gz_none=no)
+ CFLAGS="$save_CFLAGS"
+ ])
+ if test "$ac_cv_gz_none" = "yes"; then
+-- 
+2.39.1
+
