@@ -56,7 +56,7 @@ binutils.  It depends on the elfutils libelf and libdw libraries to
 read and write ELF files, DWARF data and build-ids.
 
 %prep
-%autosetup -n rpm-%{version}/upstream -p1
+%autosetup -n %{name}-%{version}/upstream -p1
 
 %build
 autoreconf -f -v -i
