@@ -1,11 +1,17 @@
-From 4c38c1019522aca2a7c5e20159f131fe4e046e04 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Wed, 17 Apr 2013 20:41:09 +0000
 Subject: [PATCH] openSUSE-finddebuginfo-patch
 
---- ./scripts/find-debuginfo.sh.orig	2019-09-09 07:56:53.377788842 +0000
-+++ ./scripts/find-debuginfo.sh	2019-10-02 11:11:56.878979662 +0000
-@@ -348,12 +348,18 @@ trap 'rm -rf "$temp"' EXIT
+---
+ scripts/find-debuginfo.in | 49 ++++++++++++++++++++++++++++-----------
+ 1 file changed, 36 insertions(+), 13 deletions(-)
+
+diff --git a/scripts/find-debuginfo.in b/scripts/find-debuginfo.in
+index c192dd8..8d15f85 100755
+--- a/scripts/find-debuginfo.in
++++ b/scripts/find-debuginfo.in
+@@ -434,12 +434,18 @@ trap 'rm -rf "$temp"' EXIT
  
  # Build a list of unstripped ELF files and their hardlinks
  touch "$temp/primary"
@@ -29,16 +35,16 @@ Subject: [PATCH] openSUSE-finddebuginfo-patch
    if [ $nlinks -gt 1 ]; then
      var=seen_$inum
      if test -n "${!var}"; then
-@@ -386,6 +392,8 @@ do_file()
+@@ -472,6 +478,8 @@ do_file()
    if [ "$no_recompute_build_id" = "true" ]; then
      no_recompute="-n"
    fi
 +  mode=$(stat -c %a "$f")
 +  chmod +w "$f"
-   id=$(${lib_rpm_dir}/debugedit -b "$debug_base_name" -d "$debug_dest_name" \
+   id=$(debugedit -b "$debug_base_name" -d "$debug_dest_name" \
  			      $no_recompute -i \
  			      ${build_id_seed:+--build-id-seed="$build_id_seed"} \
-@@ -413,17 +421,30 @@ do_file()
+@@ -499,17 +507,30 @@ do_file()
    # just has its file names collected and adjusted.
    case "$dn" in
    /usr/lib/debug/*)
@@ -76,7 +82,7 @@ Subject: [PATCH] openSUSE-finddebuginfo-patch
  
    # strip -g implies we have full symtab, don't add mini symtab in that case.
    # It only makes sense to add a minisymtab for executables and shared
-@@ -581,12 +602,14 @@ if [ -s "$SOURCEFILE" ]; then
+@@ -672,12 +693,14 @@ if [ -s "$SOURCEFILE" ]; then
    # and non-standard modes may be inherented from original directories, fixup
    find "${RPM_BUILD_ROOT}${debug_dest_name}" -type d -print0 |
    xargs --no-run-if-empty -0 chmod 0755
@@ -92,4 +98,3 @@ Subject: [PATCH] openSUSE-finddebuginfo-patch
    sed 's,^,%dir /usr/lib/,' >> "$LISTFILE"
  
    (cd "${RPM_BUILD_ROOT}/usr"
-

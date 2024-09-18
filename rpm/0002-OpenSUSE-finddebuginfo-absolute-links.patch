@@ -1,4 +1,4 @@
-From d9748aa36ecb2a653300ce72fbd6b4b85a325f97 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Wed, 17 Apr 2013 20:41:09 +0000
 From: Jan Blunck <jblunck@suse.de>
@@ -9,10 +9,15 @@ do it right in the first place. So this patch changes find-debuginfo.sh scripts
 behavior to reflect that policy.
 
 Signed-off-by: Jan Blunck <jblunck@suse.de>
+---
+ scripts/find-debuginfo.in | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
---- ./scripts/find-debuginfo.sh.orig    2017-12-01 15:26:21.939199791 +0000
-+++ ./scripts/find-debuginfo.sh 2017-12-01 15:27:03.153081225 +0000
-@@ -309,7 +309,17 @@ debug_link()
+diff --git a/scripts/find-debuginfo.in b/scripts/find-debuginfo.in
+index 8d15f85..76b0e1e 100755
+--- a/scripts/find-debuginfo.in
++++ b/scripts/find-debuginfo.in
+@@ -413,7 +413,17 @@ debug_link()
    local l="/usr/lib/debug$2"
    local t="$1"
    echo >> "$LINKSFILE" "$l $t"
@@ -31,4 +36,3 @@ Signed-off-by: Jan Blunck <jblunck@suse.de>
  }
  
  get_debugfn()
-

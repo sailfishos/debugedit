@@ -1,4 +1,4 @@
-From 3e7aeeab4f744ad15108775685db68d3a35b0735 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Mark Wielaard <mark@klomp.org>
 Date: Thu, 23 Mar 2023 18:07:40 +0100
 Subject: [PATCH] debugedit: Add support for .debug_str_offsets (DW_FORM_strx)
@@ -38,11 +38,11 @@ https://sourceware.org/bugzilla/show_bug.cgi?id=28728
 
 Signed-off-by: Mark Wielaard <mark@klomp.org>
 ---
- tools/debugedit.c | 216 ++++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 192 insertions(+), 24 deletions(-)
+ tools/debugedit.c | 215 +++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 192 insertions(+), 23 deletions(-)
 
 diff --git a/tools/debugedit.c b/tools/debugedit.c
-index e654981..7802f9f 100644
+index 668777a..a296f08 100644
 --- a/tools/debugedit.c
 +++ b/tools/debugedit.c
 @@ -1,4 +1,5 @@
@@ -51,7 +51,7 @@ index e654981..7802f9f 100644
     Written by Alexander Larsson <alexl@redhat.com>, 2002
     Based on code by Jakub Jelinek <jakub@redhat.com>, 2001.
     String/Line table rewriting by Mark Wielaard <mjw@redhat.com>, 2017.
-@@ -264,6 +264,7 @@ typedef struct
+@@ -263,6 +264,7 @@ typedef struct
  })
  
  static uint16_t (*do_read_16) (unsigned char *ptr);
@@ -59,7 +59,7 @@ index e654981..7802f9f 100644
  static uint32_t (*do_read_32) (unsigned char *ptr);
  static void (*do_write_16) (unsigned char *ptr, uint16_t val);
  static void (*do_write_32) (unsigned char *ptr, uint32_t val);
-@@ -271,6 +272,9 @@ static void (*do_write_32) (unsigned char *ptr, uint32_t val);
+@@ -270,6 +272,9 @@ static void (*do_write_32) (unsigned char *ptr, uint32_t val);
  static int ptr_size;
  static int cu_version;
  
@@ -69,7 +69,7 @@ index e654981..7802f9f 100644
  static inline uint16_t
  buf_read_ule16 (unsigned char *data)
  {
-@@ -283,6 +287,18 @@ buf_read_ube16 (unsigned char *data)
+@@ -282,6 +287,18 @@ buf_read_ube16 (unsigned char *data)
    return data[1] | (data[0] << 8);
  }
  
@@ -88,7 +88,7 @@ index e654981..7802f9f 100644
  static inline uint32_t
  buf_read_ule32 (unsigned char *data)
  {
-@@ -544,10 +560,12 @@ setup_relbuf (DSO *dso, debug_section *sec, int *reltype)
+@@ -559,10 +576,12 @@ setup_relbuf (DSO *dso, debug_section *sec, int *reltype)
        /* Relocations against section symbols are uninteresting in REL.  */
        if (dso->shdr[i].sh_type == SHT_REL && sym.st_value == 0)
  	continue;
@@ -103,7 +103,7 @@ index e654981..7802f9f 100644
  	   && sym.st_shndx != debug_sections[DEBUG_LINE].sec
  	   && sym.st_shndx != debug_sections[DEBUG_LINE_STR].sec
  	   && sym.st_shndx != debug_sections[DEBUG_ABBREV].sec))
-@@ -684,6 +702,59 @@ update_rela_data (DSO *dso, struct debug_section *sec)
+@@ -689,6 +708,59 @@ update_rela_data (DSO *dso, struct debug_section *sec)
    free (sec->relbuf);
  }
  
@@ -163,7 +163,7 @@ index e654981..7802f9f 100644
  struct abbrev_attr
    {
      unsigned int attr;
-@@ -789,7 +860,12 @@ no_memory:
+@@ -794,7 +866,12 @@ no_memory:
  		       || form == DW_FORM_addrx1
  		       || form == DW_FORM_addrx2
  		       || form == DW_FORM_addrx3
@@ -177,7 +177,7 @@ index e654981..7802f9f 100644
  	    {
  	      error (0, 0, "%s: Unknown DWARF DW_FORM_0x%x", dso->filename,
  		     form);
-@@ -1520,9 +1596,10 @@ edit_dwarf2_line (DSO *dso)
+@@ -1525,9 +1602,10 @@ edit_dwarf2_line (DSO *dso)
      }
  }
  
@@ -190,7 +190,7 @@ index e654981..7802f9f 100644
  	   bool handled_strp)
  {
    unsigned char *ptr_orig = ptr;
-@@ -1537,16 +1614,19 @@ edit_strp (DSO *dso, bool line_strp, unsigned char *ptr, int phase,
+@@ -1542,16 +1620,19 @@ edit_strp (DSO *dso, bool line_strp, unsigned char *ptr, int phase,
  	 recorded. */
        if (! handled_strp)
  	{
@@ -215,7 +215,7 @@ index e654981..7802f9f 100644
  				 ? &dso->debug_line_str : &dso->debug_str);
        idx = do_read_32_relocated (ptr);
        entry = string_find_entry (strings, idx);
-@@ -1926,9 +2006,10 @@ read_dwarf5_line_entries (DSO *dso, unsigned char **ptrp,
+@@ -1931,9 +2012,10 @@ read_dwarf5_line_entries (DSO *dso, unsigned char **ptrp,
  
  	  switch (form)
  	    {
@@ -227,7 +227,7 @@ index e654981..7802f9f 100644
  	      break;
  	    }
  
-@@ -2110,11 +2191,12 @@ find_new_list_offs (struct debug_lines *lines, size_t idx)
+@@ -2115,11 +2197,12 @@ find_new_list_offs (struct debug_lines *lines, size_t idx)
  
  /* Read DW_FORM_strp or DW_FORM_line_strp collecting compilation directory.  */
  static void
@@ -242,7 +242,7 @@ index e654981..7802f9f 100644
    /* In phase zero we collect the comp_dir.  */
    if (phase == 0)
      {
-@@ -2245,20 +2327,29 @@ edit_attributes (DSO *dso, unsigned char *ptr, struct abbrev_tag *t, int phase)
+@@ -2250,20 +2333,29 @@ edit_attributes (DSO *dso, unsigned char *ptr, struct abbrev_tag *t, int phase)
  			}
  		    }
  		}
@@ -278,7 +278,7 @@ index e654981..7802f9f 100644
  		   && t->attr[i].attr == DW_AT_name)
  	    {
  	      bool line_strp = form == DW_FORM_line_strp;
-@@ -2267,7 +2358,7 @@ edit_attributes (DSO *dso, unsigned char *ptr, struct abbrev_tag *t, int phase)
+@@ -2272,7 +2364,7 @@ edit_attributes (DSO *dso, unsigned char *ptr, struct abbrev_tag *t, int phase)
  		 unit. If starting with / it is a full path name.
  		 Note that we don't handle DW_FORM_string in this
  		 case.  */
@@ -287,7 +287,7 @@ index e654981..7802f9f 100644
  
  	      /* In phase zero we will look for a comp_dir to use.  */
  	      if (phase == 0)
-@@ -2314,10 +2405,13 @@ edit_attributes (DSO *dso, unsigned char *ptr, struct abbrev_tag *t, int phase)
+@@ -2319,10 +2411,13 @@ edit_attributes (DSO *dso, unsigned char *ptr, struct abbrev_tag *t, int phase)
  	  switch (form)
  	    {
  	    case DW_FORM_strp:
@@ -304,7 +304,7 @@ index e654981..7802f9f 100644
  	      break;
  	    }
  
-@@ -2404,6 +2498,8 @@ edit_info (DSO *dso, int phase, struct debug_section *sec)
+@@ -2409,6 +2504,8 @@ edit_info (DSO *dso, int phase, struct debug_section *sec)
    uint32_t value;
    htab_t abbrev;
    struct abbrev_tag tag, *t;
@@ -313,7 +313,7 @@ index e654981..7802f9f 100644
  
    ptr = sec->data;
    if (ptr == NULL)
-@@ -2507,6 +2603,8 @@ edit_info (DSO *dso, int phase, struct debug_section *sec)
+@@ -2512,6 +2609,8 @@ edit_info (DSO *dso, int phase, struct debug_section *sec)
        if (abbrev == NULL)
  	return 1;
  
@@ -322,7 +322,7 @@ index e654981..7802f9f 100644
        while (ptr < endcu)
  	{
  	  tag.entry = read_uleb128 (ptr);
-@@ -2521,6 +2619,30 @@ edit_info (DSO *dso, int phase, struct debug_section *sec)
+@@ -2526,6 +2625,30 @@ edit_info (DSO *dso, int phase, struct debug_section *sec)
  	      return 1;
  	    }
  
@@ -353,7 +353,7 @@ index e654981..7802f9f 100644
  	  ptr = edit_attributes (dso, ptr, t, phase);
  	  if (ptr == NULL)
  	    break;
-@@ -2554,6 +2676,41 @@ edit_dwarf2_any_str (DSO *dso, struct strings *strings, debug_section *secp)
+@@ -2559,6 +2682,41 @@ edit_dwarf2_any_str (DSO *dso, struct strings *strings, debug_section *secp)
    strings->str_buf = strdata->d_buf;
  }
  
@@ -395,7 +395,7 @@ index e654981..7802f9f 100644
  static int
  edit_dwarf2 (DSO *dso)
  {
-@@ -2675,6 +2832,7 @@ edit_dwarf2 (DSO *dso)
+@@ -2677,6 +2835,7 @@ edit_dwarf2 (DSO *dso)
    if (dso->ehdr.e_ident[EI_DATA] == ELFDATA2LSB)
      {
        do_read_16 = buf_read_ule16;
@@ -403,7 +403,7 @@ index e654981..7802f9f 100644
        do_read_32 = buf_read_ule32;
        do_write_16 = dwarf2_write_le16;
        do_write_32 = dwarf2_write_le32;
-@@ -2682,6 +2840,7 @@ edit_dwarf2 (DSO *dso)
+@@ -2684,6 +2843,7 @@ edit_dwarf2 (DSO *dso)
    else if (dso->ehdr.e_ident[EI_DATA] == ELFDATA2MSB)
      {
        do_read_16 = buf_read_ube16;
@@ -411,7 +411,7 @@ index e654981..7802f9f 100644
        do_read_32 = buf_read_ube32;
        do_write_16 = dwarf2_write_be16;
        do_write_32 = dwarf2_write_be32;
-@@ -2997,6 +3156,15 @@ edit_dwarf2 (DSO *dso)
+@@ -2999,6 +3159,15 @@ edit_dwarf2 (DSO *dso)
      dirty_section (DEBUG_MACRO);
    if (need_stmt_update || need_line_strp_update)
      dirty_section (DEBUG_LINE);
@@ -427,6 +427,3 @@ index e654981..7802f9f 100644
  
    /* Update any relocations addends we might have touched. */
    if (info_rel_updated)
--- 
-2.42.0
-

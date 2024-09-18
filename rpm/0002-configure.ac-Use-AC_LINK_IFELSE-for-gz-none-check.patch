@@ -1,4 +1,4 @@
-From 73652fa06c449f55b844890778c4cb592e0df62e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Mark Wielaard <mark@klomp.org>
 Date: Fri, 27 Jan 2023 15:23:15 +0100
 Subject: [PATCH 2/4] configure.ac: Use AC_LINK_IFELSE for -gz=none check
@@ -16,10 +16,10 @@ Signed-off-by: Mark Wielaard <mark@klomp.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure.ac b/configure.ac
-index f2d1571..1d77e99 100644
+index 6a53365..9cf372d 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -125,7 +125,7 @@ AC_SUBST([DWARF_5_DEBUGLINE])
+@@ -104,7 +104,7 @@ AC_SUBST([DWARF_5_DEBUGLINE])
  AC_CACHE_CHECK([whether gcc supports -gz=none], ac_cv_gz_none, [dnl
  save_CFLAGS="$CFLAGS"
  CFLAGS="-gz=none"
@@ -28,6 +28,3 @@ index f2d1571..1d77e99 100644
  CFLAGS="$save_CFLAGS"
  ])
  if test "$ac_cv_gz_none" = "yes"; then
--- 
-2.39.1
-

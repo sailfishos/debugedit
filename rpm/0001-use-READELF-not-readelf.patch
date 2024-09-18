@@ -1,4 +1,4 @@
-From 56e41d7c716a3657bdcce05146f7509d8a4e4a74 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Sergei Trofimovich <slyfox@gentoo.org>
 Date: Sun, 1 Aug 2021 21:15:35 +0100
 Subject: [PATCH] use $READELF, not readelf
@@ -325,6 +325,3 @@ index 608b1d0..0311d26 100644
          | grep NUMBER | rev | cut -d: -f1 | rev | cut -c2-
  ]],[0],[expout])
  
--- 
-2.39.1
-
