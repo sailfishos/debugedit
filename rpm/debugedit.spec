@@ -39,6 +39,11 @@ Patch7: 0001-find-debuginfo-Prefix-install_dir-to-PATH.patch
 Patch8: 0001-find-debuginfo-Add-v-verbose-for-per-file-messages.patch
 Patch9: 0001-debugedit-Add-support-for-.debug_str_offsets-DW_FORM.patch
 
+Patch10: 0001-openSUSE-finddebuginfo-patch.patch
+Patch11: 0002-OpenSUSE-finddebuginfo-absolute-links.patch
+Patch12: 0003-OpenSUSE-debugsubpkg.patch
+Patch13: 0009-Compatibility-with-older-dd.patch
+
 %description
 The debugedit project provides programs and scripts for creating
 debuginfo and source file distributions, collect build-ids and rewrite
