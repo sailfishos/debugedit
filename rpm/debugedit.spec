@@ -1,3 +1,5 @@
+%define rpmhome /usr/lib/rpm
+
 Name: debugedit
 Version: 5.0
 Release: 1
@@ -63,9 +65,11 @@ autoreconf -f -v -i
 
 %install
 %make_install
+
 # Temp symlink to make sure things don't break.
-cd %{buildroot}%{_bindir}
+pushd %{buildroot}%{_bindir}
 ln -s find-debuginfo find-debuginfo.sh
+popd
 
 %files
 %license COPYING COPYING3 COPYING.LIB
