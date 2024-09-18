@@ -45,6 +45,7 @@ Patch10: 0001-openSUSE-finddebuginfo-patch.patch
 Patch11: 0002-OpenSUSE-finddebuginfo-absolute-links.patch
 Patch12: 0003-OpenSUSE-debugsubpkg.patch
 Patch13: 0009-Compatibility-with-older-dd.patch
+Patch15: 0015-Remove-dwz-support.patch
 
 %description
 The debugedit project provides programs and scripts for creating
