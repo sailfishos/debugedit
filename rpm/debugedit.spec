@@ -1,11 +1,9 @@
-%define rpmhome /usr/lib/rpm
-
 Name: debugedit
 Version: 5.0
 Release: 1
 Summary: Tools for debuginfo creation
 License: GPLv3+ AND GPLv2+ AND LGPLv2+
-URL: https://sourceware.org/debugedit/
+URL: https://github.com/sailfishos/debugedit
 Source0: %{name}-%{version}.tar.bz2
 
 BuildRequires: make gcc
@@ -57,7 +55,7 @@ binutils.  It depends on the elfutils libelf and libdw libraries to
 read and write ELF files, DWARF data and build-ids.
 
 %prep
-%autosetup -n %{name}-%{version}/upstream -p1
+%autosetup -p1 -n %{name}-%{version}/upstream
 
 %build
 autoreconf -f -v -i
