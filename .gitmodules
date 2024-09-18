@@ -1,0 +1,3 @@
+[submodule "debugedit"]
+	path = upstream
+	url = git@github.com:sailfishos-mirror/debugedit.git
