@@ -1,4 +1,4 @@
-From 7f8e83cad517db081e1e0369b758d0279e0a6e1b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Mark Wielaard <mark@klomp.org>
 Date: Thu, 29 Jun 2023 14:26:39 +0200
 Subject: [PATCH] find-debuginfo: Prefix install_dir to PATH
@@ -17,7 +17,7 @@ Signed-off-by: Mark Wielaard <mark@klomp.org>
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/find-debuginfo.in b/scripts/find-debuginfo.in
-index e7ac095..f87b777 100755
+index 68ef38d..901beba 100755
 --- a/scripts/find-debuginfo.in
 +++ b/scripts/find-debuginfo.in
 @@ -101,7 +101,9 @@ EOF
@@ -30,7 +30,7 @@ index e7ac095..f87b777 100755
  
  # With -g arg, pass it to strip on libraries or executables.
  strip_g=false
-@@ -457,7 +459,7 @@ do_file()
+@@ -458,7 +460,7 @@ do_file()
    if [ "$no_recompute_build_id" = "true" ]; then
      no_recompute="-n"
    fi
@@ -39,7 +39,7 @@ index e7ac095..f87b777 100755
  			      $no_recompute -i \
  			      ${build_id_seed:+--build-id-seed="$build_id_seed"} \
  			      -l "$SOURCEFILE" "$f") || exit
-@@ -619,7 +621,7 @@ if $run_dwz \
+@@ -616,7 +618,7 @@ if $run_dwz \
      # dwz invalidates .gnu_debuglink CRC32 in the main files.
      cat "$ELFBINSFILE" |
      (cd "$RPM_BUILD_ROOT"; \
@@ -48,6 +48,3 @@ index e7ac095..f87b777 100755
    fi
  fi
  
--- 
-2.40.1
-

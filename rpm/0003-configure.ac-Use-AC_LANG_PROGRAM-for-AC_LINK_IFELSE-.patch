@@ -1,4 +1,4 @@
-From c206186e015aca89af2bb058f37e9db81160965e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Mark Wielaard <mark@klomp.org>
 Date: Fri, 27 Jan 2023 17:03:33 +0100
 Subject: [PATCH 3/4] configure.ac: Use AC_LANG_PROGRAM for AC_LINK_IFELSE
@@ -15,10 +15,10 @@ Signed-off-by: Mark Wielaard <mark@klomp.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure.ac b/configure.ac
-index 1d77e99..6704dc0 100644
+index 9cf372d..5500a82 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -125,7 +125,7 @@ AC_SUBST([DWARF_5_DEBUGLINE])
+@@ -104,7 +104,7 @@ AC_SUBST([DWARF_5_DEBUGLINE])
  AC_CACHE_CHECK([whether gcc supports -gz=none], ac_cv_gz_none, [dnl
  save_CFLAGS="$CFLAGS"
  CFLAGS="-gz=none"
@@ -27,6 +27,3 @@ index 1d77e99..6704dc0 100644
  CFLAGS="$save_CFLAGS"
  ])
  if test "$ac_cv_gz_none" = "yes"; then
--- 
-2.39.1
-

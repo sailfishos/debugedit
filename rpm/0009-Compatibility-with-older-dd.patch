@@ -1,20 +1,20 @@
-From fdf944765244df3eab7f827de6716973e21de18f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Andrew Branson <andrew.branson@jollamobile.com>
 Date: Fri, 20 Apr 2018 12:03:11 +0200
 Subject: [PATCH] Compatibility with older dd and bash
 
 ---
- scripts/find-debuginfo.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- mode change 100755 => 100644 scripts/find-debuginfo.sh
+ scripts/find-debuginfo.in | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ mode change 100755 => 100644 scripts/find-debuginfo.in
 
-diff --git a/scripts/find-debuginfo.sh b/scripts/find-debuginfo.sh
+diff --git a/scripts/find-debuginfo.in b/scripts/find-debuginfo.in
 old mode 100755
 new mode 100644
-index a7c2db0..b8934bf
---- a/scripts/find-debuginfo.sh
-+++ b/scripts/find-debuginfo.sh
-@@ -358,7 +358,7 @@
+index 4bda5ba..fb3af95
+--- a/scripts/find-debuginfo.in
++++ b/scripts/find-debuginfo.in
+@@ -462,7 +462,7 @@ while read nlinks inum f; do
        echo "$inum $f" >>"$temp/linked"
        continue
      else
@@ -23,7 +23,7 @@ index a7c2db0..b8934bf
      fi
    fi
    echo "$nlinks $inum $f" >>"$temp/primary"
-@@ -472,7 +472,7 @@ run_job()
+@@ -585,7 +585,7 @@ run_job()
    # can't use read -n <n>, because it reads bytes one by one, allowing for
    # races
    while :; do
@@ -32,6 +32,3 @@ index a7c2db0..b8934bf
      if test -z "$filenum"; then
        break
      fi
--- 
-1.8.3-rc3
-

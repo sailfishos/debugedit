@@ -1,4 +1,4 @@
-From b8ac71d9f88202f00a32c5a8b3b4b93bb2fa110a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Prarit Bhargava <prarit@redhat.com>
 Date: Thu, 26 Jan 2023 16:08:57 -0500
 Subject: [PATCH 4/4] scripts/find-debuginfo.in: Add -q|--quiet
@@ -23,7 +23,7 @@ Signed-off-by: Prarit Bhargava <prarit@redhat.com>
  1 file changed, 15 insertions(+), 7 deletions(-)
 
 diff --git a/scripts/find-debuginfo.in b/scripts/find-debuginfo.in
-index 8090c84..7dec3c3 100755
+index 9c0a735..68ef38d 100755
 --- a/scripts/find-debuginfo.in
 +++ b/scripts/find-debuginfo.in
 @@ -26,7 +26,7 @@ Usage: find-debuginfo [OPTION]... [builddir]
@@ -54,7 +54,7 @@ index 8090c84..7dec3c3 100755
  BUILDDIR=.
  out=debugfiles.list
  srcout=
-@@ -239,6 +244,9 @@ while [ $# -gt 0 ]; do
+@@ -240,6 +245,9 @@ while [ $# -gt 0 ]; do
      srcout=$2
      shift
      ;;
@@ -64,7 +64,7 @@ index 8090c84..7dec3c3 100755
    --version)
      echo "find-debuginfo @VERSION@"
      done=true;
-@@ -437,7 +445,7 @@ do_file()
+@@ -438,7 +446,7 @@ do_file()
    get_debugfn "$f"
    [ -f "${debugfn}" ] && return
  
@@ -73,7 +73,7 @@ index 8090c84..7dec3c3 100755
    # See also cpio SOURCEFILE copy. Directories must match up.
    debug_base_name="$RPM_BUILD_DIR"
    debug_dest_name="/usr/src/debug"
-@@ -513,7 +521,7 @@ do_file()
+@@ -514,7 +522,7 @@ do_file()
      grep "^$inum " "$temp/linked" | while read inum linked; do
        link=$debugfn
        get_debugfn "$linked"
@@ -82,7 +82,7 @@ index 8090c84..7dec3c3 100755
        mkdir -p "$(dirname "$debugfn")" && ln -nf "$link" "$debugfn"
      done
    fi
-@@ -576,7 +584,7 @@ if $run_dwz \
+@@ -577,7 +585,7 @@ if $run_dwz \
     && [ -d "${RPM_BUILD_ROOT}/usr/lib/debug" ]; then
    readarray dwz_files < <(cd "${RPM_BUILD_ROOT}/usr/lib/debug"; find -type f -name \*.debug | LC_ALL=C sort)
    if [ ${#dwz_files[@]} -gt 0 ]; then
@@ -111,6 +111,3 @@ index 8090c84..7dec3c3 100755
      debug_link "/usr/lib/debug$t" "${f}.debug"
    fi
  done
--- 
-2.39.1
-
