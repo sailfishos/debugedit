@@ -70,10 +70,6 @@ autoreconf -f -v -i
 # Temp symlink to make sure things don't break.
 pushd %{buildroot}%{_bindir}
 ln -s find-debuginfo find-debuginfo.sh
-
-# Another symlink for backwards Compatibility
-mkdir -p ${RPM_BUILD_ROOT}%{rpmhome}
-ln -s find-debuginfo ${RPM_BUILD_ROOT}%{rpmhome}/find-debuginfo.sh
 popd
 
 %files
@@ -83,4 +79,3 @@ popd
 %{_bindir}/sepdebugcrcfix
 %{_bindir}/find-debuginfo
 %{_bindir}/find-debuginfo.sh
-%{rpmhome}/find-debuginfo.sh
