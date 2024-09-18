@@ -23,10 +23,6 @@ Requires: elfutils
 Requires: binutils, gawk, coreutils, xz
 # For find and xargs
 Requires: findutils
-# For do_file, gdb_add_index
-# We only need gdb-add-index, so suggest gdb-minimal (full gdb is also ok)
-Requires: /usr/bin/gdb-add-index
-Suggests: gdb-minimal
 # For run_job, sed
 Requires: sed
 # For append_uniq, grep
@@ -46,6 +42,7 @@ Patch11: 0002-OpenSUSE-finddebuginfo-absolute-links.patch
 Patch12: 0003-OpenSUSE-debugsubpkg.patch
 Patch13: 0009-Compatibility-with-older-dd.patch
 Patch15: 0015-Remove-dwz-support.patch
+Patch16: 0016-Remove-.gdb_index-support.patch
 
 %description
 The debugedit project provides programs and scripts for creating
