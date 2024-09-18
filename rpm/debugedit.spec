@@ -45,6 +45,7 @@ Patch13: 0009-Compatibility-with-older-dd.patch
 Patch14: 0014-Don-t-build-manpages.patch
 Patch15: 0015-Remove-dwz-support.patch
 Patch16: 0016-Remove-.gdb_index-support.patch
+Patch17: 0017-Use-grep-E-instead-of-egrep.patch
 
 %description
 The debugedit project provides programs and scripts for creating
