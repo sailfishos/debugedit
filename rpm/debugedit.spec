@@ -4,7 +4,7 @@ Name: debugedit
 Version: 5.0
 Release: 1
 Summary: Tools for debuginfo creation
-License: GPL-3.0-or-later AND GPL-2.0-or-later AND LGPL-2.0-or-later
+License: GPLv3+ AND GPLv2+ AND LGPLv2+
 URL: https://sourceware.org/debugedit/
 Source0: %{name}-%{version}.tar.bz2
 
