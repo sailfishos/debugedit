@@ -9,7 +9,6 @@ Source0: %{name}-%{version}.tar.bz2
 BuildRequires: make gcc
 BuildRequires: pkgconfig(libelf)
 BuildRequires: pkgconfig(libdw)
-BuildRequires: gnupg2
 
 # For the testsuite.
 BuildRequires: autoconf
