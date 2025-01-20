@@ -1,5 +1,5 @@
 Name: debugedit
-Version: 5.0
+Version: 5.1
 Release: 1
 Summary: Tools for debuginfo creation
 License: GPLv3+ AND GPLv2+ AND LGPLv2+
@@ -9,6 +9,7 @@ Source0: %{name}-%{version}.tar.bz2
 BuildRequires: make gcc
 BuildRequires: pkgconfig(libelf)
 BuildRequires: pkgconfig(libdw)
+BuildRequires: xxhash-devel
 
 # For the testsuite.
 BuildRequires: autoconf
