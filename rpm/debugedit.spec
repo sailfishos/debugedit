@@ -54,6 +54,13 @@ It is based on code originally from the rpm project plus libiberty and
 binutils.  It depends on the elfutils libelf and libdw libraries to
 read and write ELF files, DWARF data and build-ids.
 
+%package doc
+Summary:  Documentation for debugedit programs ans scripts
+Requires: %{name} = %{version}
+
+%description doc
+Documentation for debugedit programs ans scripts
+
 %prep
 %autosetup -p1 -n %{name}-%{version}/upstream
 
@@ -77,6 +84,8 @@ popd
 %{_bindir}/sepdebugcrcfix
 %{_bindir}/find-debuginfo
 %{_bindir}/find-debuginfo.sh
+
+%files doc
 %{_mandir}/man1/debugedit.1*
 %{_mandir}/man1/sepdebugcrcfix.1*
 %{_mandir}/man1/find-debuginfo.1*
