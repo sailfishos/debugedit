@@ -31,9 +31,9 @@ Requires: grep
 Patch10: 0001-openSUSE-finddebuginfo-patch.patch
 Patch11: 0002-OpenSUSE-finddebuginfo-absolute-links.patch
 Patch12: 0003-OpenSUSE-debugsubpkg.patch
-Patch13: 0009-Compatibility-with-older-dd.patch
-Patch15: 0015-Remove-dwz-support.patch
-Patch16: 0016-Remove-.gdb_index-support.patch
+Patch13: 0004-Compatibility-with-older-dd.patch
+Patch15: 0005-Remove-dwz-support.patch
+Patch16: 0006-Remove-.gdb_index-support.patch
 
 %description
 The debugedit project provides programs and scripts for creating
