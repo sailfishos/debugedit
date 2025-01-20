@@ -10,6 +10,7 @@ BuildRequires: make gcc
 BuildRequires: pkgconfig(libelf)
 BuildRequires: pkgconfig(libdw)
 BuildRequires: xxhash-devel
+BuildRequires: help2man
 
 # For the testsuite.
 BuildRequires: autoconf
@@ -40,7 +41,6 @@ Patch10: 0001-openSUSE-finddebuginfo-patch.patch
 Patch11: 0002-OpenSUSE-finddebuginfo-absolute-links.patch
 Patch12: 0003-OpenSUSE-debugsubpkg.patch
 Patch13: 0009-Compatibility-with-older-dd.patch
-Patch14: 0014-Don-t-build-manpages.patch
 Patch15: 0015-Remove-dwz-support.patch
 Patch16: 0016-Remove-.gdb_index-support.patch
 Patch17: 0017-Use-grep-E-instead-of-egrep.patch
@@ -77,3 +77,6 @@ popd
 %{_bindir}/sepdebugcrcfix
 %{_bindir}/find-debuginfo
 %{_bindir}/find-debuginfo.sh
+%{_mandir}/man1/debugedit.1*
+%{_mandir}/man1/sepdebugcrcfix.1*
+%{_mandir}/man1/find-debuginfo.1*
