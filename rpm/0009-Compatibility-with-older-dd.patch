@@ -23,7 +23,7 @@ index 4bda5ba..fb3af95
      fi
    fi
    echo "$nlinks $inum $f" >>"$temp/primary"
-@@ -585,7 +585,7 @@ run_job()
+@@ -590,7 +590,7 @@ run_job()
    # can't use read -n <n>, because it reads bytes one by one, allowing for
    # races
    while :; do

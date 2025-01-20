@@ -44,7 +44,7 @@ index c192dd8..8d15f85 100755
    id=$(debugedit -b "$debug_base_name" -d "$debug_dest_name" \
  			      $no_recompute -i \
  			      ${build_id_seed:+--build-id-seed="$build_id_seed"} \
-@@ -499,17 +507,30 @@ do_file()
+@@ -503,17 +511,30 @@ do_file()
    # just has its file names collected and adjusted.
    case "$dn" in
    /usr/lib/debug/*)
@@ -82,7 +82,7 @@ index c192dd8..8d15f85 100755
  
    # strip -g implies we have full symtab, don't add mini symtab in that case.
    # It only makes sense to add a minisymtab for executables and shared
-@@ -672,12 +693,14 @@ if [ -s "$SOURCEFILE" ]; then
+@@ -689,12 +710,14 @@ if [ -s "$SOURCEFILE" ]; then
    # and non-standard modes may be inherented from original directories, fixup
    find "${RPM_BUILD_ROOT}${debug_dest_name}" -type d -print0 |
    xargs --no-run-if-empty -0 chmod 0755
