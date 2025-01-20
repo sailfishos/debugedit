@@ -28,15 +28,6 @@ Requires: sed
 # For append_uniq, grep
 Requires: grep
 
-Patch1: 0001-use-READELF-not-readelf.patch
-Patch2: 0001-tests-Handle-zero-directory-entry-in-.debug_line-DWA.patch
-Patch4: 0002-configure.ac-Use-AC_LINK_IFELSE-for-gz-none-check.patch
-Patch5: 0003-configure.ac-Use-AC_LANG_PROGRAM-for-AC_LINK_IFELSE-.patch
-Patch6: 0004-scripts-find-debuginfo.in-Add-q-quiet.patch
-Patch7: 0001-find-debuginfo-Prefix-install_dir-to-PATH.patch
-Patch8: 0001-find-debuginfo-Add-v-verbose-for-per-file-messages.patch
-Patch9: 0001-debugedit-Add-support-for-.debug_str_offsets-DW_FORM.patch
-
 Patch10: 0001-openSUSE-finddebuginfo-patch.patch
 Patch11: 0002-OpenSUSE-finddebuginfo-absolute-links.patch
 Patch12: 0003-OpenSUSE-debugsubpkg.patch
