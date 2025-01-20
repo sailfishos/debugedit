@@ -29,13 +29,12 @@ Requires: sed
 # For append_uniq, grep
 Requires: grep
 
-Patch10: 0001-openSUSE-finddebuginfo-patch.patch
-Patch11: 0002-OpenSUSE-finddebuginfo-absolute-links.patch
-Patch12: 0003-OpenSUSE-debugsubpkg.patch
-Patch13: 0009-Compatibility-with-older-dd.patch
-Patch15: 0015-Remove-dwz-support.patch
-Patch16: 0016-Remove-.gdb_index-support.patch
-Patch17: 0017-Use-grep-E-instead-of-egrep.patch
+Patch0: 0001-OpenSUSE-finddebuginfo-patch.patch
+Patch1: 0002-OpenSUSE-finddebuginfo-absolute-links.patch
+Patch2: 0003-OpenSUSE-debugsubpkg.patch
+Patch3: 0004-Compatibility-with-older-dd.patch
+Patch5: 0005-Remove-dwz-support.patch
+Patch6: 0006-Remove-.gdb_index-support.patch
 
 %description
 The debugedit project provides programs and scripts for creating

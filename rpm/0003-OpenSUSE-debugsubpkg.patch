@@ -12,7 +12,7 @@ diff --git a/scripts/find-debuginfo.in b/scripts/find-debuginfo.in
 index 76b0e1e..4bda5ba 100755
 --- a/scripts/find-debuginfo.in
 +++ b/scripts/find-debuginfo.in
-@@ -667,20 +667,25 @@ if $run_dwz \
+@@ -684,20 +684,25 @@ if $run_dwz \
    fi
  fi
  
