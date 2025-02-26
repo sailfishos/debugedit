@@ -8,7 +8,7 @@ License: GPLv3+ AND GPLv2+ AND LGPLv2+
 URL: https://github.com/sailfishos/debugedit
 Source0: %{name}-%{version}.tar.bz2
 
-BuildRequires: make gcc
+# BuildRequires: make gcc
 BuildRequires: pkgconfig(libelf)
 BuildRequires: pkgconfig(libdw)
 BuildRequires: xxhash-devel
