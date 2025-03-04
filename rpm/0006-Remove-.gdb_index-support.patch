@@ -1,0 +1,54 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matti Viljanen <matti.viljanen@jolla.com>
+Date: Wed, 18 Sep 2024 11:27:10 +0300
+Subject: [PATCH] Remove .gdb_index support
+
+---
+ scripts/find-debuginfo.in | 20 --------------------
+ 1 file changed, 20 deletions(-)
+
+diff --git a/scripts/find-debuginfo.in b/scripts/find-debuginfo.in
+index 2b2e2f2..0685115 100644
+--- a/scripts/find-debuginfo.in
++++ b/scripts/find-debuginfo.in
+@@ -114,9 +114,6 @@ keep_remove_args=
+ # with -m arg, add minimal debuginfo to binary.
+ include_minidebug=false
+ 
+-# with -i arg, add GDB index to .debug file.
+-include_gdb_index=false
+-
+ # Barf on missing build IDs.
+ strict=false
+ 
+@@ -177,9 +174,6 @@ while [ $# -gt 0 ]; do
+   -n)
+     no_recompute_build_id=true
+     ;;
+-  -i)
+-    include_gdb_index=true
+-    ;;
+   -o)
+     if [ -z "${lists[$nout]}" ] && [ -z "${ptns[$nout]}" ]; then
+       out=$2
+@@ -470,20 +464,6 @@ do_file()
+     $strict && return 2
+   fi
+ 
+-  # Add .gdb_index if requested.
+-  if $include_gdb_index; then
+-    if type gdb-add-index >/dev/null 2>&1; then
+-      gdb-add-index "$f" || {
+-        status=$?
+-        echo >&2 "*** ERROR:: GDB exited with exit status $status during index generation"
+-        return 2
+-      }
+-    else
+-      echo >&2 "*** ERROR: GDB index requested, but no gdb-add-index installed"
+-      return 2
+-    fi
+-  fi
+-
+   # Compress any annobin notes in the original binary.
+   # Ignore any errors, since older objcopy don't support --merge-notes.
+   objcopy --merge-notes "$f" 2>/dev/null || true

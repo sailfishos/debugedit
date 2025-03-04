@@ -1,0 +1,66 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matti Viljanen <matti.viljanen@jolla.com>
+Date: Wed, 26 Feb 2025 18:25:26 +0200
+Subject: [PATCH] Remove manpages
+
+---
+ Makefile.am  | 33 ---------------------------------
+ configure.ac |  1 -
+ 2 files changed, 34 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index c590edf..7dc8b3e 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -49,39 +49,6 @@ sepdebugcrcfix_SOURCES = tools/sepdebugcrcfix.c
+ sepdebugcrcfix_CFLAGS = @LIBELF_CFLAGS@ $(AM_CFLAGS)
+ sepdebugcrcfix_LDADD = @LIBELF_LIBS@
+ 
+-# Manual pages are generated for dist
+-dist_man_MANS = debugedit.1 sepdebugcrcfix.1 find-debuginfo.1
+-
+-# The 'case' ensures the man pages are only generated if the corresponding
+-# source script (the first prerequisite) or configure.ac (for the version)
+-# has been changed.  The executable prerequisite is solely meant to force
+-# these docs to be made only after the executable has been compiled.
+-# This makes sure help2man is not normally necessary (since the generated
+-# man pages are distributed).
+-debugedit.1: tools/debugedit.c configure.ac debugedit$(EXEEXT)
+-	@case '$?' in \
+-	  *$<* | *configure.ac* ) $(HELP2MAN) -N --output=$@ \
+-		--name='debug source path manipulation tool' \
+-		./debugedit$(EXEEXT) ;; \
+-	  * ) : ;; \
+-	esac
+-
+-sepdebugcrcfix.1: tools/sepdebugcrcfix.c configure.ac sepdebugcrcfix$(EXEEXT)
+-	@case '$?' in \
+-	  *$<* | *configure.ac* ) $(HELP2MAN) -N --output=$@ \
+-		--name='fixes CRC for separate .debug files' \
+-		./sepdebugcrcfix$(EXEEXT) ;;\
+-	  * ) : ;; \
+-	esac
+-
+-find-debuginfo.1: $(top_srcdir)/scripts/find-debuginfo.in configure.ac find-debuginfo
+-	@case '$?' in \
+-	  *$<* | *configure.ac* ) $(HELP2MAN) -N --output=$@ \
+-		--name='finds debuginfo and processes it' \
+-		./find-debuginfo ;;\
+-	  * ) : ;; \
+-	esac
+-
+ noinst_HEADERS= tools/ansidecl.h \
+ 		tools/hashtab.h
+ 
+diff --git a/configure.ac b/configure.ac
+index a5a6e28..6840a24 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -45,7 +45,6 @@ m4_version_prereq([2.70], [AC_PROG_CC], [AC_PROG_CC_C99])
+ AC_PROG_LN_S
+ AC_CHECK_TOOL([LD], [ld])
+ AC_CHECK_TOOL([READELF], [readelf])
+-AM_MISSING_PROG(HELP2MAN, help2man)
+ 
+ # Whether dwz support -j.
+ # Make sure to compile something with -g.
